@@ -46,7 +46,7 @@ Config.LamboStations = {
 			Spawner = vector3(3507.152, -6684.079, 2189.056),
 			InsideShop = vector3(3476.967, -6648.646, 2189.837),
 			SpawnPoints = {
-			    {coords = vector3(3513.297, -6690.356, 2187.005), heading = 90.0, radius = 3.0}
+			    {coords = vector3(3513.297, -6690.356, 2187.005), heading = 135.0, radius = 3.0}
 			 }
 		      }
 		},
