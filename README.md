@@ -14,6 +14,9 @@ start NurburgringNordschleife
 to your server.cfg
 import the esx_lambojob.sql in your database and finish
 
+Preview:
+https://youtu.be/QjEk_jBrADQ
+
 Credits:
 Nordschleife/Nurnburgring:https://forum.cfx.re/t/release-nurburgring-gp-and-nordschleife-16-1-miles-of-race-tracks-for-fivem-v1-20/437288
 
