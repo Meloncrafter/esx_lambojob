@@ -299,7 +299,7 @@ function OpenBuyWeaponsMenu()
 				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
 			end
 		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
+			ESX.TriggerServerCallback('esx_lambojob:buyWeapon', function(bought)
 				if bought then
 					if data.current.price > 0 then
 						ESX.ShowNotification(_U('armory_bought', data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
@@ -324,63 +324,14 @@ function OpenlamboActionsMenu()
 		title    = _U('mechanic'),
 		align    = 'top-left',
 		elements = {
-			{label = _U('billing'),       value = 'billing'},
-			{label = _U('hijack'),        value = 'hijack_vehicle'},
 			{label = _U('repair'),        value = 'fix_vehicle'},
 			{label = _U('clean'),         value = 'clean_vehicle'},
-			{label = _U('imp_veh'),       value = 'del_vehicle'},
 			{label = _U('flat_bed'),      value = 'dep_vehicle'},
 			{label = _U('place_objects'), value = 'object_spawner'}
 	}}, function(data, menu)
 		if isBusy then return end
 
-		if data.current.value == 'billing' then
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-				title = _U('invoice_amount')
-			}, function(data, menu)
-				local amount = tonumber(data.value)
-
-				if amount == nil or amount < 0 then
-					ESX.ShowNotification(_U('amount_invalid'))
-				else
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U('no_players_nearby'))
-					else
-						menu.close()
-						TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_mechanic', _U('mechanic'), amount)
-					end
-				end
-			end, function(data, menu)
-				menu.close()
-			end)
-		elseif data.current.value == 'hijack_vehicle' then
-			local playerPed = PlayerPedId()
-			local vehicle = ESX.Game.GetVehicleInDirection()
-			local coords = GetEntityCoords(playerPed)
-
-			if IsPedSittingInAnyVehicle(playerPed) then
-				ESX.ShowNotification(_U('inside_vehicle'))
-				return
-			end
-
-			if DoesEntityExist(vehicle) then
-				isBusy = true
-				TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
-				Citizen.CreateThread(function()
-					Citizen.Wait(10000)
-
-					SetVehicleDoorsLocked(vehicle, 1)
-					SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-					ClearPedTasksImmediately(playerPed)
-
-					ESX.ShowNotification(_U('vehicle_unlocked'))
-					isBusy = false
-				end)
-			else
-				ESX.ShowNotification(_U('no_vehicle_nearby'))
-			end
-		elseif data.current.value == 'fix_vehicle' then
+		if data.current.value == 'fix_vehicle' then
 			local playerPed = PlayerPedId()
 			local vehicle   = ESX.Game.GetVehicleInDirection()
 			local coords    = GetEntityCoords(playerPed)
@@ -433,28 +384,7 @@ function OpenlamboActionsMenu()
 			else
 				ESX.ShowNotification(_U('no_vehicle_nearby'))
 			end
-		elseif data.current.value == 'del_vehicle' then
-			local playerPed = PlayerPedId()
 
-			if IsPedSittingInAnyVehicle(playerPed) then
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-
-				if GetPedInVehicleSeat(vehicle, -1) == playerPed then
-					ESX.ShowNotification(_U('vehicle_impounded'))
-					ESX.Game.DeleteVehicle(vehicle)
-				else
-					ESX.ShowNotification(_U('must_seat_driver'))
-				end
-			else
-				local vehicle = ESX.Game.GetVehicleInDirection()
-
-				if DoesEntityExist(vehicle) then
-					ESX.ShowNotification(_U('vehicle_impounded'))
-					ESX.Game.DeleteVehicle(vehicle)
-				else
-					ESX.ShowNotification(_U('must_near'))
-				end
-			end
 		elseif data.current.value == 'dep_vehicle' then
 			local playerPed = PlayerPedId()
 			local vehicle = GetVehiclePedIsIn(playerPed, true)
@@ -534,7 +464,8 @@ function OpenlamboActionsMenu()
 				align    = 'top-left',
 				elements = {
 					{label = _U('roadcone'), value = 'prop_roadcone02a'},
-					{label = _U('toolbox'),  value = 'prop_toolchest_01'}
+					{label = _U('toolbox'),  value = 'prop_toolchest_01'},
+					{label = _U('barrier'), model = 'prop_barrier_work05'},
 			}}, function(data2, menu2)
 				local model   = data2.current.value
 				local coords  = GetEntityCoords(playerPed)
