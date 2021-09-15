@@ -13,7 +13,7 @@ Config.EnableLicenses             = false -- enable if you're using esx_license
 Config.EnableHandcuffTimer        = false -- enable handcuff timer? will unrestrain player after the time ends
 Config.HandcuffTimer              = 10 * 60000 -- 10 mins
 
-Config.EnableJobBlip              = true -- enable blips for cops on duty, requires esx_society
+Config.EnableJobBlip              = false -- enable blips for cops on duty, requires esx_society
 Config.EnableCustomPeds           = false -- enable custom peds in cloak room? See Config.CustomPeds below to customize peds
 
 Config.EnableESXService           = false -- enable esx service?
@@ -26,11 +26,11 @@ Config.LamboStations = {
 	LamboRacing = {
 
 		Blip = {
-		    Coords  = vector3(425.1, -979.5, 30.7),
-		    Sprite  = 60,
+		    Coords  = vector3(3508.193, -6673.253, 2189.19),
+		    Sprite  = 77,
 		    Display = 4,
 		    Scale   = 1.2,
-		    Colour  = 29
+		    Colour  = 69
 		},
 
 		Cloakrooms = {
@@ -38,7 +38,7 @@ Config.LamboStations = {
 		},
 
 		Armories = {
-			vector3(461.1, -981.5, 43.0)
+			vector3(3513.34, -6679.24, 2189.14)
 		},
 
 		Vehicles = {
@@ -74,9 +74,7 @@ Config.AuthorizedWeapons = {
 		{weapon = 'WEAPON_PETROLCAN', price = 1},
 	},
 
-	driver = {
-		{weapon = 'WEAPON_PETROLCAN', price = 1}
-	},
+	driver = {},
 
     boss = {
         {weapon = 'WEAPON_PETROLCAN', price = 1}
